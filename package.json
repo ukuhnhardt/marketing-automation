@@ -5,7 +5,7 @@
   "main": "out/bin/main.js",
   "scripts": {
     "start": "npm i && npm run build && node out/bin/main.js",
-    "build": "tsc",
+    "build": "npx tsc",
     "watch": "tsc --watch",
     "once": "node out/bin/run-once.js",
     "inflate": "node out/bin/inflate.js",
@@ -54,7 +54,6 @@
     "path-parse": ">=1.0.7",
     "set-value": "^4.1.0",
     "tmpl": "^1.0.5",
-    "tsc": "^2.0.4",
     "typescript": "^4.5.2",
     "ws": ">=7.4.6"
   },
