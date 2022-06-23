@@ -4,6 +4,7 @@
   "description": "",
   "main": "out/bin/main.js",
   "scripts": {
+    "start": "npm i && npm run build && node out/bin/main.js",
     "build": "tsc",
     "watch": "tsc --watch",
     "once": "node out/bin/run-once.js",

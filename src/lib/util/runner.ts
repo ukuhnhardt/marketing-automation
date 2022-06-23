@@ -27,8 +27,10 @@ export default function run(console: ConsoleLogger, loopConfig: RunLoopConfig, {
         errors.length = 0;
       }
 
-      console.printInfo('Runner', `Finished successfully; waiting ${normalInterval} for next loop.`);
-      setTimeout(run, parseTimeToMs(normalInterval));
+      if (normalInterval) {
+        console.printInfo('Runner', `Finished successfully; waiting ${normalInterval} for next loop.`);
+        setTimeout(run, parseTimeToMs(normalInterval));
+      }
     }
     catch (e: any) {
       console.printError('Runner', 'Error:', e);
