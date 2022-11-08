@@ -1,5 +1,5 @@
 import assert from "assert";
-import dotenv from "dotenv";
+import * as dotenv from 'dotenv-flow'
 import { DataShiftConfig } from "../data-shift/analyze";
 import { EngineConfig } from "../engine/engine";
 import { HubspotCreds } from "../hubspot/api";
@@ -10,6 +10,9 @@ import { HubspotDealConfig } from "../model/deal";
 import { RunLoopConfig } from "../util/runner";
 
 dotenv.config();
+// require('dotenv-flow').config()
+
+console.log("ENV", process.env)
 
 export function keepDataSetConfigFromENV() {
   return optional('KEEP_DATA_SETS');
@@ -62,6 +65,7 @@ export function hubspotDealConfigFromENV(): HubspotDealConfig {
     dealstage: {
       eval: required('HUBSPOT_DEALSTAGE_EVAL'),
       closedWon: required('HUBSPOT_DEALSTAGE_CLOSED_WON'),
+      closedWonRenewal: required('HUBSPOT_DEALSTAGE_CLOSED_WON_RENEWAL'),
       closedLost: required('HUBSPOT_DEALSTAGE_CLOSED_LOST'),
     },
     attrs: {
