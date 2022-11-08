@@ -8,7 +8,7 @@ export type ResultEntity = {
   associations: RelativeAssociation[],
 };
 
-export type RelativeAssociation = `${EntityKind}:${string}`;
+export type RelativeAssociation = `${string}:${string}`;
 
 export type HubspotProperties = Record<string, string | null>;
 
@@ -42,6 +42,7 @@ export interface EntityAdapter<D> {
     property: string | undefined,
     down: (data: string | null) => D[K],
     up: (data: D[K]) => string,
+    makeComparable?: (v: D[K]) => string,
     identifier?: true,
   } };
 

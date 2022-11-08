@@ -1,6 +1,6 @@
 import { EntityAdapter, EntityKind, FullEntity, RelativeAssociation } from "./interfaces";
 
-export interface Indexer<D> {
+export interface Indexer<D extends Record<string, any>> {
   removeIndexesFor<K extends keyof D>(key: K, entity: Entity<D>): void;
   addIndexesFor<K extends keyof D>(key: K, val: D[K] | undefined, entity: Entity<D>): void;
 }
@@ -68,8 +68,13 @@ export abstract class Entity<D extends Record<string, any>> {
   public getPropertyChanges() {
     const upProperties: Partial<{ [K in keyof D]: string }> = Object.create(null);
     for (const [k, v] of Object.entries(this.newData)) {
-      if (v !== this._oldData[k]) {
-        const spec = this.adapter.data[k];
+      const spec = this.adapter.data[k];
+      const oldValue = this._oldData[k];
+
+      const compString1 = oldValue === undefined ? '' : (spec.makeComparable?.(oldValue) ?? oldValue);
+      const compString2 = spec.makeComparable?.(v) ?? v;
+
+      if (compString1 !== compString2) {
         if (spec.property) {
           const upKey = spec.property as keyof D;
           const upVal = spec.up(v);
@@ -133,7 +138,7 @@ export abstract class Entity<D extends Record<string, any>> {
       id: this.id!,
       properties: this.upsyncableData(),
       associations: [...this.upsyncableAssociations()].map(other => {
-        return `${other.kind}:${other.id}` as RelativeAssociation;
+        return `${this.kind}_to_${other.kind}:${other.id}` as RelativeAssociation;
       }),
     };
   }
@@ -143,9 +148,9 @@ export abstract class Entity<D extends Record<string, any>> {
     for (const [k, v] of Object.entries(this.newData)) {
       const spec = this.adapter.data[k];
       if (spec.property) {
-        const upKey = spec.property as keyof D;
+        const upKey = spec.property;
         const upVal = spec.up(v);
-        upProperties[upKey as string] = upVal;
+        upProperties[upKey] = upVal;
       }
     }
     return upProperties;
