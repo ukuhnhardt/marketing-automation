@@ -9,15 +9,15 @@ export type RawPartnerDetails = {
   partnerName: string;
   partnerType?: string;
   billingContact: {
-    email: string;
-    name: string;
+    email?: string;
+    name?: string;
   };
 };
 
 export interface RawTransaction {
   transactionId: string;
   addonLicenseId?: string;
-  licenseId: string;
+  licenseId?: string;
   addonKey: string;
   addonName: string;
   lastUpdated: string;
@@ -60,7 +60,7 @@ export type RawLicenseContact = {
 
 export interface RawLicense {
   addonLicenseId?: string;
-  licenseId: string;
+  licenseId?: string;
   addonKey: string;
   addonName: string;
   lastUpdated: string;
@@ -125,7 +125,7 @@ export function maybeGetContactInfo(contactInfo: RawLicenseContact | RawTransact
 }
 
 export function getPartnerInfo(info: RawPartnerDetails | undefined): PartnerInfo | null {
-  if (!info) return null;
+  if (!info || !info.billingContact.email || !info.billingContact.name) return null;
   return {
     partnerName: info.partnerName,
     partnerType: info.partnerType,

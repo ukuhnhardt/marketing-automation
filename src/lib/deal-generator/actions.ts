@@ -198,18 +198,16 @@ export class ActionGenerator {
             importantDeals.map(d => ({ id: d.id, ...d.data })));
         }
 
-        for (const deal of foundDeals) {
-          if (!importantDeals.includes(deal)) {
-            toDelete.push(deal);
-          }
-        }
+        toDelete = [...foundDeals].filter(deal => !importantDeals.includes(deal));
       }
 
       if (this.dealManager.duplicates.has(dealToUse)) {
         throw new Error(`Primary duplicate is accounted for twice: ${dealToUse.id}`);
       }
 
-      this.dealManager.duplicates.set(dealToUse, toDelete);
+      if (toDelete.length > 0) {
+        this.dealManager.duplicates.set(dealToUse, toDelete);
+      }
 
       for (const dup of toDelete) {
         dup.data.duplicateOf = dealToUse.id ?? null;
@@ -222,7 +220,7 @@ export class ActionGenerator {
   maybeMakeMetaAction(event: Exclude<DealRelevantEvent, RefundEvent>, deal: Deal | null, amount: number): Action | null {
     switch (event.meta) {
       case 'archived-app':
-      case 'mass-provider-only':
+      case 'mass-provider-only': {
         const reason = (event.meta === 'archived-app'
           ? 'Archived-app transaction'
           : 'Free-email-provider transaction'
@@ -231,6 +229,7 @@ export class ActionGenerator {
           this.ignore(reason, amount);
         }
         return { type: 'noop', deal, reason: event.meta };
+      }
       default:
         return null;
     }
@@ -282,6 +281,9 @@ export class ActionGenerator {
         ? record.data.saleDate
         : record.data.maintenanceStartDate),
       deployment: record.data.hosting,
+      saleType: (record instanceof Transaction && record.data.saleType !== 'Refund'
+        ? record.data.saleType
+        : null),
       app: record.data.addonKey,
       licenseTier: record.tier,
       country: record.data.country,

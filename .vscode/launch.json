@@ -11,6 +11,9 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/src/bin/run-once.ts",
+      "args": [
+        "fast"
+      ],
       "type": "pwa-node"
     },
     {
@@ -25,6 +28,15 @@
     {
       "name": "Investigate Data",
       "program": "${workspaceFolder}/src/bin/investigate.ts",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
+      "name": "Analyze Data Shift",
+      "program": "${workspaceFolder}/src/bin/analyze-data-shift.ts",
       "request": "launch",
       "skipFiles": [
         "<node_internals>/**"

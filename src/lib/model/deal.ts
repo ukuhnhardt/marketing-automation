@@ -18,6 +18,7 @@ export type DealData = {
   dealName: string;
   origin: string | null;
   deployment: 'Server' | 'Cloud' | 'Data Center' | null;
+  saleType: 'New' | 'Renewal' | 'Upgrade' | null;
   licenseTier: number | null;
   pipeline: Pipeline;
   dealStage: DealStage;
@@ -37,11 +38,11 @@ export class Deal extends Entity<DealData> {
   public companies = this.makeDynamicAssociation<Company>('company');
 
   public getMpacIds() {
-    return [
+    return new Set([
       this.deriveId(this.data.addonLicenseId),
       this.deriveId(this.data.appEntitlementId),
       this.deriveId(this.data.appEntitlementNumber),
-    ].filter(isPresent);
+    ].filter(isPresent));
   }
 
   private deriveId(id: string | null) {
@@ -99,6 +100,7 @@ export interface HubspotDealConfig {
     origin?: string,
     country?: string,
     deployment?: string,
+    saleType?: string,
     licenseTier?: string,
     relatedProducts?: string,
     associatedPartner?: string,
@@ -234,6 +236,11 @@ function makeAdapter(config: HubspotDealConfig): EntityAdapter<DealData> {
         down: deployment => deployment as DealData['deployment'],
         up: deployment => deployment ?? '',
       },
+      saleType: {
+        property: config.attrs?.saleType,
+        down: sale_type => sale_type as DealData['saleType'],
+        up: saleType => saleType ?? '',
+      },
       licenseTier: {
         property: config.attrs?.licenseTier,
         down: license_tier => license_tier ? +license_tier : null,
@@ -309,8 +316,8 @@ export class DealManager extends EntityManager<DealData, Deal> {
 
   public duplicates = new Map<Deal, Deal[]>();
 
-  constructor(config: HubspotDealConfig) {
-    super();
+  constructor(typeMappings: Map<string, string>, config: HubspotDealConfig) {
+    super(typeMappings);
     this.entityAdapter = makeAdapter(config);
   }
 

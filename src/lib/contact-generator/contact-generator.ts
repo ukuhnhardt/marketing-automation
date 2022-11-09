@@ -84,7 +84,8 @@ export class ContactGenerator {
   }
 
   private contactFrom(item: License | Transaction, info: ContactInfo | PartnerBillingInfo): GeneratedContact {
-    let [firstName, ...lastNameGroup] = (info.name || ' ').split(' ');
+    const [firstNameRaw, ...lastNameGroup] = (info.name || ' ').split(' ');
+    let firstName = firstNameRaw;
     let lastName = lastNameGroup.filter(n => n).join(' ');
 
     const NAME_URL_RE = /(.)\.([a-zA-Z]{2})/g;
@@ -105,7 +106,7 @@ export class ContactGenerator {
       country: capitalize.words(item.data.country),
       region: item.data.region,
       relatedProducts: new Set(),
-      deployment: item.data.hosting,
+      deployment: new Set([item.data.hosting]),
       products: new Set([item.data.addonKey].filter(key => notIgnored(this.archivedApps, key))),
       licenseTier: null,
       lastMpacEvent: '',
@@ -166,6 +167,9 @@ export function mergeContactInfo(contact: ContactData, contacts: GeneratedContac
   for (const other of contacts) {
     for (const product of other.products) {
       contact.products.add(product);
+    }
+    for (const deployment of other.deployment) {
+      contact.deployment.add(deployment);
     }
   }
 }
