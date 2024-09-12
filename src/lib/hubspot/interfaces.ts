@@ -27,6 +27,7 @@ export enum Pipeline {
 export enum DealStage {
   EVAL,
   CLOSED_WON,
+  CLOSED_WON_RENEWAL,
   CLOSED_LOST,
 }
 

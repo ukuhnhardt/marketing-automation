@@ -108,7 +108,7 @@ export class ActionGenerator {
     if (deal) {
       return this.makeUpdateAction(records, deal, event.transaction);
     }
-    return this.makeCreateAction(records, event.transaction, DealStage.CLOSED_WON);
+    return this.makeCreateAction(records, event.transaction, DealStage.CLOSED_WON_RENEWAL);
   }
 
   private actionsForRefund(records: (License | Transaction)[], event: RefundEvent): Action[] {

@@ -9,8 +9,8 @@ export type RawPartnerDetails = {
   partnerName: string;
   partnerType?: string;
   billingContact: {
-    email: string;
-    name: string;
+    email?: string;
+    name?: string;
   };
 };
 
@@ -125,7 +125,7 @@ export function maybeGetContactInfo(contactInfo: RawLicenseContact | RawTransact
 }
 
 export function getPartnerInfo(info: RawPartnerDetails | undefined): PartnerInfo | null {
-  if (!info) return null;
+  if (!info || !info.billingContact.email || !info.billingContact.name) return null;
   return {
     partnerName: info.partnerName,
     partnerType: info.partnerType,

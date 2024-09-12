@@ -88,6 +88,7 @@ export interface HubspotDealConfig {
   dealstage?: {
     eval?: string,
     closedWon?: string,
+    closedWonRenewal?: string,
     closedLost?: string,
   },
   attrs?: {
@@ -116,6 +117,7 @@ export interface HubspotRequiredDealConfig {
   dealstage: {
     eval: string,
     closedWon: string,
+    closedWonRenewal: string,
     closedLost: string,
   },
   attrs: {
@@ -142,6 +144,7 @@ function makeAdapter(config: HubspotDealConfig): EntityAdapter<DealData> {
     dealstage: {
       eval: config.dealstage?.eval ?? 'Eval',
       closedWon: config.dealstage?.closedWon ?? 'ClosedWon',
+      closedWonRenewal: config.dealstage?.closedWonRenewal ?? 'ClosedWonRenewal',
       closedLost: config.dealstage?.closedLost ?? 'ClosedLost',
     },
     attrs: {
@@ -166,6 +169,7 @@ function makeAdapter(config: HubspotDealConfig): EntityAdapter<DealData> {
   const dealstages: Record<DealStage, string> = {
     [DealStage.EVAL]: requiredConfig.dealstage.eval,
     [DealStage.CLOSED_WON]: requiredConfig.dealstage.closedWon,
+    [DealStage.CLOSED_WON_RENEWAL]: requiredConfig.dealstage.closedWonRenewal,
     [DealStage.CLOSED_LOST]: requiredConfig.dealstage.closedLost,
   };
 
