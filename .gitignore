@@ -1,6 +1,6 @@
 /data
-/.env
 node_modules/
+/.env.local
 *.cpuprofile
 /out/
 .idea

@@ -10,8 +10,8 @@ export type RawPartnerDetails = {
   partnerName: string;
   partnerType: string;
   billingContact: {
-    email: string;
-    name: string;
+    email?: string;
+    name?: string;
   };
 };
 

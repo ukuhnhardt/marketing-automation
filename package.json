@@ -4,6 +4,8 @@
   "description": "",
   "main": "out/bin/main.js",
   "scripts": {
+    "start": "node out/bin/main.js",
+    "postinstall": "npm run build",
     "build": "tsc",
     "watch": "tsc --watch",
     "once": "node out/bin/run-once.js",
@@ -28,6 +30,7 @@
     "deep-object-diff": "^1.1.9",
     "del": "^6.0.0",
     "dotenv": "^8.2.0",
+    "dotenv-flow": "^3.2.0",
     "email-providers": "^1.0.3",
     "flat": "^5.0.2",
     "got": "^11.8.5",
@@ -36,7 +39,8 @@
     "n-readlines": "^1.0.1",
     "nock": "^13.5.3",
     "promise-all-properties": "^3.0.4",
-    "source-map-support": "^0.5.21"
+    "source-map-support": "^0.5.21",
+    "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@types/capitalize": "^2.0.0",
@@ -55,8 +59,11 @@
     "path-parse": ">=1.0.7",
     "set-value": "^4.1.0",
     "tmpl": "^1.0.5",
-    "typescript": "^4.5.2",
+    "typescript": "^4.7.4",
     "ws": ">=7.4.6"
+  },
+  "engines": {
+    "node": "16"
   },
   "keywords": [],
   "author": "",
