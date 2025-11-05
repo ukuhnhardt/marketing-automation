@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenvFlow from 'dotenv-flow';
 import { DataShiftConfig } from '../data-shift/analyze';
 import { EngineConfig } from '../engine/engine';
 import { HubspotCreds } from '../hubspot/api';
@@ -8,7 +8,10 @@ import { HubspotContactConfig } from '../model/contact';
 import { HubspotDealConfig } from '../model/deal';
 import { RunLoopConfig } from '../util/runner';
 
-dotenv.config();
+// Use dotenv-flow to load .env files with proper precedence.
+// dotenv-flow supports .env, .env.local, and environment-specific files
+// and will apply local overrides (.env.local) where appropriate.
+dotenvFlow.config();
 
 export function keepDataSetConfigFromENV() {
   return optional('KEEP_DATA_SETS');

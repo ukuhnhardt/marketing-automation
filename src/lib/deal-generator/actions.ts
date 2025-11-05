@@ -318,7 +318,7 @@ export class ActionGenerator {
       associatedPartner,
       addonLicenseId: record.data.addonLicenseId,
       transactionId: (record instanceof Transaction ? record.data.transactionId : null),
-      transactionLineItemId: (record instanceof Transaction ? record.data.transactionLineItemId : null),
+  transactionLineItemId: (record instanceof Transaction ? (record.data.transactionLineItemId ?? 'TLI_UNKNOWN') : null),
       appEntitlementId: record.data.appEntitlementId,
       duplicateOf: null,
       maintenanceEndDate: record.data.maintenanceEndDate,

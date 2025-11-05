@@ -17,7 +17,7 @@ export type RawPartnerDetails = {
 
 export interface RawTransaction {
   transactionId: string;
-  transactionLineItemId: string;
+  transactionLineItemId?: string;
   addonLicenseId?: string;
   licenseId?: string;
   addonKey: string;
@@ -132,7 +132,7 @@ export function getPartnerInfo(info: RawPartnerDetails | undefined): PartnerInfo
     partnerType: info.partnerType,
     billingContact: {
       email: mapEmail(info.billingContact.email),
-      name: info.billingContact.name,
+      name: info.billingContact.name ?? "UNKNOWN",
     },
   };
 }
