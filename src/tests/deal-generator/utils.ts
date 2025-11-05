@@ -149,7 +149,7 @@ function rawLicenseFrom(id: string, addonKey: string, techContact: RawLicenseCon
   };
 }
 
-function rawTransactionFrom(rawLicense: RawLicense, txId: string, txLineId: string, saleDate: string, saleType: string, vendorAmount: number): RawTransaction {
+function rawTransactionFrom(rawLicense: RawLicense, txId: string, txLineId: string | undefined, saleDate: string, saleType: string, vendorAmount: number): RawTransaction {
   return {
     appEntitlementId: rawLicense.appEntitlementId,
     licenseId: rawLicense.appEntitlementId!,

@@ -28,7 +28,7 @@ export interface TransactionData {
   maintenanceEndDate: string,
 
   transactionId: string,
-  transactionLineItemId: string,
+  transactionLineItemId: string | undefined,
   saleDate: string,
   saleType: 'Renewal' | 'Upgrade' | 'New' | 'Refund',
 
@@ -137,7 +137,8 @@ export function uniqueLegacyTransactionId(transactionId: string, licenseId: stri
 }
 
 
-export function uniqueTransactionLineId(transactionId: string, transactionLineId: string, licenseId: string) {
+export function uniqueTransactionLineId(transactionId: string, transactionLineId: string | null | undefined, licenseId: string) {
   if (!transactionId.startsWith('AT')) transactionId = `(AT)${transactionId}`;
-  return `${transactionId}/${transactionLineId}[${licenseId}]`
+  const tli = transactionLineId ?? 'TLI_UNKNOWN';
+  return `${transactionId}/${tli}[${licenseId}]`
 }
